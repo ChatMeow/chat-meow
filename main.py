@@ -12,7 +12,7 @@ import logging
 
 if __name__ == '__main__':
     logging.basicConfig(
-        level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+        level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     
     chat_thread = Thread(target=chat_loop, name='chat_thread')
     chat_thread.setDaemon(True)

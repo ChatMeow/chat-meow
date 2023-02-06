@@ -52,5 +52,6 @@ def set_config():
 def create_app():
     logging.debug('Start create FLASK app')
     # CORS(app, resources=r'/*')
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
+
     # return flask_app
