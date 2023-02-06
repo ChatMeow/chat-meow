@@ -1,8 +1,14 @@
+'''
+Author: MeowKJ
+Date: 2023-02-02 17:15:35
+LastEditors: MeowKJ ijink@qq.com
+LastEditTime: 2023-02-06 19:41:49
+FilePath: /chat-meow/chat.py
+'''
 from meow.audio.play import play
 from meow.utils.context import get_audio_handler, get_openai_handler, get_baidu_handler
 import logging
 from meow.utils.context import baidu_lock, openai_lock, audio_lock
-from threading import Thread
 from meow.utils.conf import init_context
 import time
 

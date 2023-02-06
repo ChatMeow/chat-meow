@@ -9,7 +9,6 @@ from threading import Thread
 from meow.web.app import create_app
 from chat import chat_loop
 import logging
-import time
 
 if __name__ == '__main__':
     logging.basicConfig(
@@ -18,9 +17,6 @@ if __name__ == '__main__':
     chat_thread = Thread(target=chat_loop, name='chat_thread')
     chat_thread.setDaemon(True)
     chat_thread.start()
-    # time.sleep(20)
-    # chat_loop()
-    # create_app()
     create_app()
 
 
