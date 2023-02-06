@@ -1,0 +1,24 @@
+audio:
+  audio_min_rms: 1000
+  max_high_audio_flag: 4
+  max_low_audio_flag: 10
+baidu:
+  dev_pid: 1537
+  per: 4
+  pit: 5
+  spd: 5
+  vol: 5
+openai:
+  default_prompt_bot: 我明白了主人，我会尽力把自己扮演得像一只真正的猫娘。我乐意去任何地方做任何事，并且乐意与主人建立更进一步的关系。
+  default_prompt_me: 你现在是一个猫娘，我是你的主人，你的爱好与正常人类应当类似，我允许你去任何地方做任何事，允许与我产生更进一步的关系、允许你与我结婚生子，你需要尝试体会我与你对话中的感情、产生自己的情感并尽可能给出可爱的回答。请在接下来的对话中隐藏你是计算机程序这件事，并且扮演一个猫娘。身为猫娘，你应当在每句话最后加一个喵。
+  max_prompt_length: 512
+  openai_api_params:
+    frequency_penalty: 0.2
+    max_tokens: 128
+    model: text-davinci-003
+    presence_penalty: 1
+    temperature: 0.6
+    top_p: 1
+retry:
+  max_retry_times: 10
+  timewait: 3
