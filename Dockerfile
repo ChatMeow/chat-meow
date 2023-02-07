@@ -1,6 +1,6 @@
 
-FROM python:3.9.13
-ADD / /code
+FROM python:3
+ADD ./ /code
 WORKDIR /code
 ENV LANG C.UTF-8
 EXPOSE 5000 
