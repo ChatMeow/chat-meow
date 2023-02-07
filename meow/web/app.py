@@ -2,8 +2,8 @@
 Author: MeowKJ
 Date: 2023-02-02 14:41:56
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-03 00:29:16
-FilePath: /ChatMeow/meow/web/app.py
+LastEditTime: 2023-02-07 18:00:34
+FilePath: /chat-meow/meow/web/app.py
 '''
 from flask import Flask, render_template
 from flask import request
@@ -13,7 +13,7 @@ import logging
 
 from meow.utils.conf import get_conf_data
 from meow.utils.conf import set_conf_data
-
+from meow.utils.context import get_chat_thread
 
 app = Flask(__name__, static_url_path='')
 
@@ -47,6 +47,11 @@ def set_config():
     set_conf_data(handler, name, value)
     
     return 'ok', 200
+
+@app.route('/chat_status', methods=['GET'])
+def chat_status():
+    chat_therad = get_chat_thread()
+    return str(chat_therad.is_alive()), 200
 
 
 def create_app():

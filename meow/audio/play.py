@@ -1,20 +1,18 @@
 import pyaudio
 import wave
 
-def play(audio_txt: str) -> None:
+def play_from_str(audio_txt: str) -> None:
     p = pyaudio.PyAudio()
 
     stream = p.open(format=8, channels=1,
                     rate=16000, output=True)
-
     stream.write(audio_txt)
-
     stream.stop_stream()
     stream.close()
     p.terminate()
 
 
-def play_wav(audio_wav: str) -> None:
+def play_from_wav(audio_wav: str) -> None:
     chunk = 1024
     f = wave.open(audio_wav, "rb")
     p = pyaudio.PyAudio()

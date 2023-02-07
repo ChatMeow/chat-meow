@@ -2,8 +2,8 @@
 Author: MeowKJ
 Date: 2023-01-25 15:40:12
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-03 00:08:50
-FilePath: /ChatMeow/meow/baidu/baidu_audio.py
+LastEditTime: 2023-02-07 17:57:19
+FilePath: /chat-meow/meow/baidu/baidu.py
 '''
 
 # coding=utf-8
@@ -24,7 +24,7 @@ TTS_URL = 'http://tsn.baidu.com/text2audio'
 FORMATS = {3: "mp3", 4: "pcm", 5: "pcm", 6: "wav"}
 timer = time.perf_counter
 
-class BaiduAudio():
+class BaiduHandler():
     def __init__(self, api_key, secret_key, cuid, dev_pid=1537, per=4, spd=5, pit=5, vol=5):
         self.dev_pid = dev_pid
         # self.scope = scope
@@ -66,7 +66,6 @@ class BaiduAudio():
             # if self.scope and (not self.scope in result['scope'].split(' ')):
             #     raise Exception('scope is not correct')
             logging.debug('SUCCESS GET BAIDU TOKEN {}. EXPIRES IN SECONDS {}'.format(result['access_token'], result['expires_in']))
-            logging.info('百度语音识别获取token成功')
             self.token = result['access_token']
             return 0, 'ok'
         else:

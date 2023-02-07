@@ -1,9 +1,16 @@
+'''
+Author: MeowKJ
+Date: 2023-02-01 11:59:24
+LastEditors: MeowKJ ijink@qq.com
+LastEditTime: 2023-02-07 17:56:48
+FilePath: /chat-meow/meow/database/db.py
+'''
 from sqlite3 import Cursor
 import time
 import sqlite3
 import logging
 
-class DatabaseManager:
+class DBHandler:
     conn = None
     cursor = None
 
@@ -32,8 +39,7 @@ class DatabaseManager:
         )
         """)
 
-        logging.info('Database Initialized SUCCESS.')
-        logging.info('初始化数据库完成')
+        logging.debug('Database Initialized SUCCESS.')
 
     def add_one_prompt(self, name: str, prompt: str):
         self.execute('insert into prompt (name, timestamp, prompt, length) values (?,?,?,?)',

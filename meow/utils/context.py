@@ -2,10 +2,10 @@
 Author: MeowKJ
 Date: 2023-02-01 13:04:11
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-02 18:20:13
-FilePath: /ChatMeow/meow/utils/context.py
+LastEditTime: 2023-02-07 17:31:14
+FilePath: /chat-meow/meow/utils/context.py
 '''
-from threading import Lock
+from threading import Lock, Thread
 
 context = {
     'db.manager': None,
@@ -15,7 +15,8 @@ context = {
     'baidu_handler': None,
     'openai_handler': None,
     'audio_handler': None,
-    'audio.stop': False
+    'audio.stop': False,
+    'chat_thread': None,
 }
 
 baidu_lock = Lock()
@@ -31,7 +32,7 @@ def set_openai_handler(openai_handler):
     context.update({'openai_handler': openai_handler})
 
 
-def set_audio_handler(audio_handler):
+def set_record_handler(audio_handler):
     context.update({'audio_handler': audio_handler})
 
 
@@ -44,7 +45,7 @@ def get_openai_handler():
     return context.get('openai_handler')
 
 
-def get_audio_handler():
+def get_record_handler():
     return context.get('audio_handler')
 
 
@@ -56,14 +57,22 @@ def get_db_manager():
     return context.get('db_manager')
 
 
-def set_retries(timewait: int, max_retries: int):
+def set_retry_conf(timewait: int, max_retries: int):
     context.update({'retry.max_retries': max_retries})
     context.update({'retry.timewait': timewait})
 
 
-def set_audio_stop(stop: bool):
+def set_record_stop(stop: bool):
     context.update({'audio.stop': stop})
 
 
-def get_audio_stop() -> bool:
+def get_record_stop() -> bool:
     return context.get('audio.stop')
+
+
+def set_chat_thread(chat_thread: Thread):
+    context.update({'chat_thread': chat_thread})
+
+
+def get_chat_thread() -> Thread:
+    return context.get('chat_thread')

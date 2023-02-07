@@ -2,21 +2,17 @@
 Author: MeowKJ
 Date: 2023-01-25 00:57:53
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-06 19:43:28
+LastEditTime: 2023-02-07 17:59:52
 FilePath: /chat-meow/main.py
 '''
-from threading import Thread
 from meow.web.app import create_app
-from chat import chat_loop
+from chat import create_chat
 import logging
 
 if __name__ == '__main__':
     logging.basicConfig(
         level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    
-    chat_thread = Thread(target=chat_loop, name='chat_thread')
-    chat_thread.setDaemon(True)
-    chat_thread.start()
+    create_chat()
     create_app()
 
 
