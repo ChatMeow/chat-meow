@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-02-02 17:15:35
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-07 17:55:37
+LastEditTime: 2023-02-08 12:53:47
 FilePath: /chat-meow/chat.py
 '''
 from meow.audio.play import play_from_str
@@ -28,7 +28,7 @@ def chat_loop():
     baidu_handler = get_baidu_handler()
     while True:
         logging.debug('***START_LOOP***')
-        print('猫猫正在聆听...')
+        logging.info('猫猫正在聆听...')
         code = 1
         audio_lock.acquire()
         code, audio_detect_file = record_handler.detect_audio()
@@ -38,13 +38,13 @@ def chat_loop():
             with audio_lock:
                 code, audio_detect_file = record_handler.detect_audio()
         
-        print('猫猫正在理解...')
+        logging.info('猫猫正在理解...')
         # ? 识别
         baidu_lock.acquire()
         code, result_text = baidu_handler.recog(audio_detect_file)
         baidu_lock.release()
         
-        print('你说:{}'.format(result_text))
+        logging.info('你说:{}'.format(result_text))
 
         if not code == 0:
             logging.warning('recognition ERROR, TRY RESTART')
@@ -55,7 +55,7 @@ def chat_loop():
         code, openai_output = openai_handler.chat(result_text)
         openai_lock.release()
         
-        print('猫猫说:{}'.format(openai_output))
+        logging.info('猫猫说:{}'.format(openai_output))
 
         if not code == 0:
             logging.warning('openai ERROR, TRY RESTART')
@@ -72,6 +72,6 @@ def chat_loop():
         try:
             play_from_str(output_audio)
         except Exception as e:
-            logging.error('play ERROR, %s'.format(str(e)))
+            logging.error('play ERROR, {}'.format(str(e)))
 
         logging.debug('***END_LOOP***')
