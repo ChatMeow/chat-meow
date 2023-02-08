@@ -12,6 +12,7 @@ from meow.utils.context import get_record_stop
 from meow.utils.context import get_chat_thread_stop_flag
 from meow.utils.context import ThreadStopException
 import wave
+import time
 # global audio_frames
 
 
@@ -92,7 +93,7 @@ class RecordHandler(object):
 
         stream = self.pyaudio_instance.open(format=8, channels=1,
                         rate=16000, output=True)
-
+        time.sleep(0.5)
         stream.write(audio_txt)
         stream.stop_stream()
         stream.close()
