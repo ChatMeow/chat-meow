@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 16:42:23
+LastEditTime: 2023-02-08 16:54:01
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -55,7 +55,7 @@ class RecordHandler(object):
             stream_data = stream.read(self.chunk)
 
             rms = audioop.rms(stream_data, 2)
-            logging.debug('RECORD  ' + rms)
+            logging.debug('RECORD  ' + str(rms))
             if rms > self.audio_min_rms:
                 high_audio_flag = high_audio_flag + 1
                 low_audio_flag = 0
