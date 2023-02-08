@@ -2,12 +2,11 @@
 Author: MeowKJ
 Date: 2023-02-02 14:41:56
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 16:03:40
+LastEditTime: 2023-02-08 16:20:29
 FilePath: /chat-meow/meow/web/app.py
 '''
 from flask import Flask, render_template
 from flask import request
-from flask_cors import CORS
 
 import logging
 
@@ -72,7 +71,6 @@ def start_chat():
 
 
 def create_app():
-    CORS(app, resources=r'/*')
     app.run(host='0.0.0.0', port=5000)
 
     # return flask_app
