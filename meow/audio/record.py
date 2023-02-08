@@ -44,6 +44,7 @@ class RecordHandler(object):
         while True:
             if (get_record_stop()):
                 logging.info('STOP THE RECORDING because stop.audio is True')
+                stream.close()
                 return 1, 'stop'
             if (get_chat_thread_stop_flag()):
                 logging.info('STOP THE THREAD because ThreadStopException')
