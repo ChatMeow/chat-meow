@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 17:17:31
+LastEditTime: 2023-02-08 17:22:00
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -31,15 +31,18 @@ class RecordHandler(object):
         self.max_low_audio_flag = max_low_audio_flag
         self.max_high_audio_flag = max_high_audio_flag
         self.audio_frames = []
-        self.play_stream = self.pyaudio_instance.open(format=8, channels=1,
-                                                      rate=16000, output=True)
-        self.record_stream = self.pyaudio_instance.open(format=self.stream_format,
-                                            channels=self.channels,
-                                            rate=self.rate,
-                                            input=True,
-                                            frames_per_buffer=self.chunk)
+        self.play_stream = None
+        self.record_stream = None
 
-    def detect_audio(self):        
+    def detect_audio(self):
+        if(not self.play_stream is None):
+            self.play_stream.close()
+        self.record_stream = self.pyaudio_instance.open(format=self.stream_format,
+                                                   channels=self.channels,
+                                                   rate=self.rate,
+                                                   input=True,
+                                                   frames_per_buffer=self.chunk)
+
         low_audio_flag = 0
         high_audio_flag = 0
         detect_count = 0
@@ -82,6 +85,7 @@ class RecordHandler(object):
                 logging.debug("* no audio detected, stop detecting ~")
                 break
         self.record_stream.stop_stream()
+        self.record_stream.close()
         txt = b''.join(self.audio_frames)
         self.audio_frames = []
         self.before_play_from_str()
@@ -91,7 +95,8 @@ class RecordHandler(object):
         self.pyaudio_instance.terminate()
 
     def before_play_from_str(self) -> None:
-        pass
+        self.play_stream = self.pyaudio_instance.open(format=8, channels=1,
+                                                      rate=16000, output=True)
 
     def play_from_str(self, audio_txt: str) -> None:
         self.play_stream.write(audio_txt)
