@@ -104,6 +104,8 @@ class BaiduHandler():
             result_str = str(result_str, 'utf-8')
             text = dict(json.loads(result_str))["result"][0]
             logging.debug('recognition result: {}'.format(text))
+            if(text == ''):
+                return 2, 'NO RESULT'
             return 0, text
 
     @network_retry
