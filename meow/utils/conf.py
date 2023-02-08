@@ -71,13 +71,13 @@ def set_conf_data(handler, key, value):
         mc.set_record_stop(True)
         with audio_lock:
             set_conf_file('audio', key, value)
-            audio_handler = mc.get_audio_handler()
+            audio_handler = mc.get_record_handler()
             if hasattr(audio_handler, key):
                 setattr(audio_handler, key, value)
             else:
                 logging.error(f"{key} does not exist")
 
-        mc.set_audio_stop(False)
+        mc.set_record_stop(False)
         return 0
     else:
         logging.error("unspport handler")

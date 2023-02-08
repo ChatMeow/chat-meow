@@ -2,10 +2,11 @@
 Author: MeowKJ
 Date: 2023-02-01 13:04:11
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-07 17:31:14
+LastEditTime: 2023-02-08 15:42:15
 FilePath: /chat-meow/meow/utils/context.py
 '''
 from threading import Lock, Thread
+
 
 context = {
     'db.manager': None,
@@ -17,11 +18,15 @@ context = {
     'audio_handler': None,
     'audio.stop': False,
     'chat_thread': None,
+    'chat_thread_stop_flag': False
 }
+
+msg = ''
 
 baidu_lock = Lock()
 openai_lock = Lock()
 audio_lock = Lock()
+msg_lock = Lock()
 
 
 def set_baidu_handler(baidu_handler):
@@ -76,3 +81,21 @@ def set_chat_thread(chat_thread: Thread):
 
 def get_chat_thread() -> Thread:
     return context.get('chat_thread')
+
+
+def set_chat_thread_stop_flag(flag: bool):
+    context.update({'chat_thread_stop_flag': flag})
+
+
+def get_chat_thread_stop_flag() -> bool:
+    return context.get('chat_thread_stop_flag')
+
+def get_msg():
+    return msg
+
+def set_msg(m):
+    global msg
+    msg = m
+
+class ThreadStopException(Exception):
+    pass

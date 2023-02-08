@@ -2,14 +2,15 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-07 17:53:11
+LastEditTime: 2023-02-08 14:27:42
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
 import pyaudio
 import logging
 from meow.utils.context import get_record_stop
-
+from meow.utils.context import get_chat_thread_stop_flag
+from meow.utils.context import ThreadStopException
 # global audio_frames
 
 
@@ -44,8 +45,11 @@ class RecordHandler(object):
             if (get_record_stop()):
                 logging.info('STOP THE RECORDING because stop.audio is True')
                 return 1, 'stop'
+            if (get_chat_thread_stop_flag()):
+                logging.info('STOP THE THREAD because ThreadStopException')
+                raise (ThreadStopException)
             detect_count += 1
-
+  
             stream_data = stream.read(self.chunk)
 
             rms = audioop.rms(stream_data, 2)
@@ -56,6 +60,13 @@ class RecordHandler(object):
 
             else:
                 low_audio_flag = low_audio_flag + 1
+                
+            if(detect_count > 10000):
+                low_audio_flag = 0
+                high_audio_flag = 0
+                detect_count = 0
+                detect_count = 0
+            
             if low_audio_flag > self.max_low_audio_flag and high_audio_flag > self.max_high_audio_flag:
 
                 logging.debug("* no audio detected, stop detecting ~")
@@ -65,7 +76,6 @@ class RecordHandler(object):
         txt = b''.join(self.audio_frames)
         self.audio_frames = []
         return 0, txt
-
 
     def terminate(self):
         self.pyaudio_instance.terminate()

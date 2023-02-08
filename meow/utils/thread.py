@@ -2,17 +2,27 @@
 Author: MeowKJ
 Date: 2023-02-07 17:31:57
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-07 18:02:12
+LastEditTime: 2023-02-08 15:06:35
 FilePath: /chat-meow/meow/utils/thread.py
 '''
 from threading import Thread
 from meow.utils.context import set_chat_thread
+from meow.utils.context import get_chat_thread
+from meow.utils.context import set_chat_thread_stop_flag
+
 import logging
 
 def rsgister_chat_thread(func):
-    chat_thread = Thread(target=func, name='chat_thread')
-    chat_thread.setDaemon(True)
-    chat_thread.start()
-    set_chat_thread(chat_thread)
-    logging.info('register chat_thread success')
+    if((get_chat_thread() is None) or (not get_chat_thread().is_alive())):
+        chat_thread = Thread(target=func, name='chat_thread')
+        chat_thread.setDaemon(True)
+        set_chat_thread_stop_flag(False)
+        chat_thread.start()
+        set_chat_thread(chat_thread)
+        logging.info('register chat_thread success')
+    logging.warning('Thread is still running, stop before register')
+
+def stop_chat_thread():
+    set_chat_thread_stop_flag(True)
     
+

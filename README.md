@@ -2,18 +2,31 @@
  * @Author: MeowKJ
  * @Date: 2021-11-22 01:41:22
  * @LastEditors: MeowKJ ijink@qq.com
- * @LastEditTime: 2023-02-07 18:23:39
+ * @LastEditTime: 2023-02-08 14:13:36
  * @FilePath: /chat-meow/README.md
 -->
 # ChatMeow
 
 ## 开始
 
-### 1.克隆本项目到OrangePi (使用Unbuntu20.04系统为例)，并安装依赖
+### 1.克隆本项目到OrangePi (使用Unbuntu20.04系统为例)，并安装依赖喵
 
+`git clone https://github.com/meowkj/chat-meow.git && cd chat-meow`
 
+安装必备依赖
 
-### 2.获取百度和openai的kay
+```sh
+apt-get update -y && RUN apt-get install -y python3-dev portaudio19-dev python3-pyaudio
+pip install Flask openai PyAudio PyYAML requests
+```
+
+或者使用准备好的Docker镜像(beta)
+
+```sh
+docker pull kjqaq/chatmeow
+```
+
+#### 2.获取百度和openai的key喵
 
 #### 百度
 
@@ -28,7 +41,7 @@
 openai apikey 查看链接
 <https://platform.openai.com/account/api-keys>
 
-根目录下创建**key.yml**文件，按照以下实例格式填入
+根目录下创建**key.yml**文件，按照如下格式填入
 
 ```yaml
 BAIDU_KEY:
@@ -38,3 +51,12 @@ BAIDU_KEY:
 
 OPENAI_API_KEY: "sk-xxxxxxxxxxxxxxxxxxxxx" # openai的apikey
 ```
+
+### 3.运行喵
+
+在根目录下
+使用自己的python环境
+`python3 mian.py &`
+
+使用docker提供的环境(beta)
+`docker run --itd -v .:/chat --privileged -itd kjqaq/chatmeow`
