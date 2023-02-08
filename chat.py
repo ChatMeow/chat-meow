@@ -5,7 +5,6 @@ LastEditors: MeowKJ ijink@qq.com
 LastEditTime: 2023-02-08 15:41:39
 FilePath: /chat-meow/chat.py
 '''
-from meow.audio.play import play_from_str
 from meow.utils.context import get_record_handler, get_openai_handler, get_baidu_handler
 import logging
 from meow.utils.context import baidu_lock, openai_lock, audio_lock, msg_lock, set_msg
@@ -96,7 +95,7 @@ def chat_loop():
 
         # ? 播放
         try:
-            play_from_str(output_audio)
+            record_handler.play_from_str(output_audio)
         except Exception as e:
             logging.error('play ERROR, {}'.format(str(e)))
             raise Exception('paly ERROR STOP')

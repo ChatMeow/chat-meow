@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 14:27:42
+LastEditTime: 2023-02-08 16:42:23
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -11,6 +11,7 @@ import logging
 from meow.utils.context import get_record_stop
 from meow.utils.context import get_chat_thread_stop_flag
 from meow.utils.context import ThreadStopException
+import wave
 # global audio_frames
 
 
@@ -20,7 +21,7 @@ class RecordHandler(object):
     pyaudio_instance = pyaudio.PyAudio()
  #   sample_width = pyaudio_instance.get_sample_size(stream_format)
 
-    def __init__(self, audio_min_rms=2000, max_low_audio_flag=10, max_high_audio_flag=3, channel=1, rate=16000, chunk=1024):
+    def __init__(self, audio_min_rms=2000, max_low_audio_flag=10, max_high_audio_flag=3, channel=1, rate=44100, chunk=1024):
         # self.source_file = source_file
         self.channels = channel
         self.rate = rate
@@ -50,7 +51,7 @@ class RecordHandler(object):
                 logging.info('STOP THE THREAD because ThreadStopException')
                 raise (ThreadStopException)
             detect_count += 1
-  
+
             stream_data = stream.read(self.chunk)
 
             rms = audioop.rms(stream_data, 2)
@@ -61,13 +62,13 @@ class RecordHandler(object):
 
             else:
                 low_audio_flag = low_audio_flag + 1
-                
-            if(detect_count > 10000):
+
+            if (detect_count > 10000):
                 low_audio_flag = 0
                 high_audio_flag = 0
                 detect_count = 0
                 detect_count = 0
-            
+
             if low_audio_flag > self.max_low_audio_flag and high_audio_flag > self.max_high_audio_flag:
 
                 logging.debug("* no audio detected, stop detecting ~")
@@ -79,4 +80,31 @@ class RecordHandler(object):
         return 0, txt
 
     def terminate(self):
+        self.pyaudio_instance.terminate()
+
+
+    def play_from_str(self, audio_txt: str) -> None:
+
+        stream = self.pyaudio_instance.open(format=8, channels=1,
+                        rate=16000, output=True)
+
+        stream.write(audio_txt)
+        stream.stop_stream()
+        stream.close()
+        self.pyaudio_instance.terminate()
+
+
+    def play_from_wav(self, audio_wav: str) -> None:
+        chunk = 1024
+        f = wave.open(audio_wav, "rb")
+        stream = self.pyaudio_instance.open(format=self.pyaudio_instance.get_format_from_width(f.getsampwidth()),
+                        channels=f.getnchannels(),
+                        rate=f.getframerate(),
+                        output=True)
+        data = f.readframes(chunk)
+        while data != '':
+            stream.write(data)
+            data = f.readframes(chunk)
+        stream.stop_stream()
+        stream.close()
         self.pyaudio_instance.terminate()
