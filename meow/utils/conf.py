@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-02-02 15:05:49
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-07 17:50:48
+LastEditTime: 2023-02-08 11:50:29
 FilePath: /chat-meow/meow/utils/conf.py
 '''
 import yaml

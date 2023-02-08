@@ -1,0 +1,12 @@
+version: "3.4"
+services:
+  mirai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      LANG: "C.UTF-8"
+    restart: always
+    network_mode: host
+    volumes:
+    - .:/chat

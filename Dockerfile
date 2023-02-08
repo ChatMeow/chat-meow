@@ -1,6 +1,5 @@
 FROM python:3
-ADD . /chat-meow
-WORKDIR /chat-meow
+WORKDIR /chat
 ENV LANG C.UTF-8
 EXPOSE 5000
 RUN apt-get update -y
