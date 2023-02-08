@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 17:14:31
+LastEditTime: 2023-02-08 17:17:31
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -31,23 +31,24 @@ class RecordHandler(object):
         self.max_low_audio_flag = max_low_audio_flag
         self.max_high_audio_flag = max_high_audio_flag
         self.audio_frames = []
-
-    def detect_audio(self):
-        self.play_stream.close()
-        stream = self.pyaudio_instance.open(format=self.stream_format,
+        self.play_stream = self.pyaudio_instance.open(format=8, channels=1,
+                                                      rate=16000, output=True)
+        self.record_stream = self.pyaudio_instance.open(format=self.stream_format,
                                             channels=self.channels,
                                             rate=self.rate,
                                             input=True,
                                             frames_per_buffer=self.chunk)
+
+    def detect_audio(self):        
         low_audio_flag = 0
         high_audio_flag = 0
         detect_count = 0
+
         logging.debug("* start detecting audio ~")
 
         while True:
             if (get_record_stop()):
                 logging.info('STOP THE RECORDING because stop.audio is True')
-                stream.close()
                 return 1, 'stop'
             if (get_chat_thread_stop_flag()):
                 logging.info('STOP THE THREAD because ThreadStopException')
@@ -55,7 +56,7 @@ class RecordHandler(object):
 
             detect_count += 1
 
-            stream_data = stream.read(self.chunk)
+            stream_data = self.record_stream.read(self.chunk)
 
             rms = audioop.rms(stream_data, 2)
             if (detect_count < 10):
@@ -80,8 +81,7 @@ class RecordHandler(object):
 
                 logging.debug("* no audio detected, stop detecting ~")
                 break
-        stream.stop_stream()
-        stream.close()
+        self.record_stream.stop_stream()
         txt = b''.join(self.audio_frames)
         self.audio_frames = []
         self.before_play_from_str()
@@ -90,27 +90,24 @@ class RecordHandler(object):
     def terminate(self):
         self.pyaudio_instance.terminate()
 
-    # 似乎在目标设备直接播放会丢失一小段，先打开设备一会儿
-
     def before_play_from_str(self) -> None:
-        self.play_stream = self.pyaudio_instance.open(format=8, channels=1,
-                                                      rate=16000, output=True)
+        pass
 
     def play_from_str(self, audio_txt: str) -> None:
         self.play_stream.write(audio_txt)
         self.play_stream.stop_stream()
         self.play_stream.close()
 
-    def play_from_wav(self, audio_wav: str) -> None:
-        chunk = 1024
-        f = wave.open(audio_wav, "rb")
-        stream = self.pyaudio_instance.open(format=self.pyaudio_instance.get_format_from_width(f.getsampwidth()),
-                                            channels=f.getnchannels(),
-                                            rate=f.getframerate(),
-                                            output=True)
-        data = f.readframes(chunk)
-        while data != '':
-            stream.write(data)
-            data = f.readframes(chunk)
-        stream.stop_stream()
-        stream.close()
+    # def play_from_wav(self, audio_wav: str) -> None:
+    #     chunk = 1024
+    #     f = wave.open(audio_wav, "rb")
+    #     stream = self.pyaudio_instance.open(format=self.pyaudio_instance.get_format_from_width(f.getsampwidth()),
+    #                                         channels=f.getnchannels(),
+    #                                         rate=f.getframerate(),
+    #                                         output=True)
+    #     data = f.readframes(chunk)
+    #     while data != '':
+    #         stream.write(data)
+    #         data = f.readframes(chunk)
+    #     stream.stop_stream()
+    #     stream.close()
