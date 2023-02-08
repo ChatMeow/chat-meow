@@ -55,6 +55,7 @@ class RecordHandler(object):
             stream_data = stream.read(self.chunk)
 
             rms = audioop.rms(stream_data, 2)
+            logging.debug('RECORD  ' + rms)
             if rms > self.audio_min_rms:
                 high_audio_flag = high_audio_flag + 1
                 low_audio_flag = 0
