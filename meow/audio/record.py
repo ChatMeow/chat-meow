@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 17:06:14
+LastEditTime: 2023-02-08 17:11:25
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -93,7 +93,7 @@ class RecordHandler(object):
 
         stream = self.pyaudio_instance.open(format=8, channels=1,
                         rate=16000, output=True)
-        time.sleep(0.5)
+        time.sleep(1)
         stream.write(audio_txt)
         stream.stop_stream()
         stream.close()
