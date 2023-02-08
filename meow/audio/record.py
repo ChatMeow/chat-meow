@@ -96,7 +96,6 @@ class RecordHandler(object):
         stream.write(audio_txt)
         stream.stop_stream()
         stream.close()
-        self.pyaudio_instance.terminate()
 
 
     def play_from_wav(self, audio_wav: str) -> None:
@@ -112,4 +111,3 @@ class RecordHandler(object):
             data = f.readframes(chunk)
         stream.stop_stream()
         stream.close()
-        self.pyaudio_instance.terminate()
