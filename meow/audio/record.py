@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 16:59:36
+LastEditTime: 2023-02-08 17:06:14
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -22,7 +22,7 @@ class RecordHandler(object):
     pyaudio_instance = pyaudio.PyAudio()
  #   sample_width = pyaudio_instance.get_sample_size(stream_format)
 
-    def __init__(self, audio_min_rms=2000, max_low_audio_flag=10, max_high_audio_flag=3, channel=1, rate=44100, chunk=1024):
+    def __init__(self, audio_min_rms=2000, max_low_audio_flag=10, max_high_audio_flag=3, channel=1, rate=16000, chunk=1024):
         # self.source_file = source_file
         self.channels = channel
         self.rate = rate
