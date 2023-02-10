@@ -122,5 +122,5 @@ class BaiduHandler():
         except URLError as err:
             logging.error('BAIDU TTS NETWORK ERROR -> baidu tts error, asr http response http error : ' + str(err))
             return 1, 'retry'
-
+        logging.debug('TTS OK, result len: %d', len(result_str))
         return 0, result_str
