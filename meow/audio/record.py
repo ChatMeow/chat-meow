@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 17:54:44
+LastEditTime: 2023-02-10 21:00:58
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -52,7 +52,6 @@ class RecordHandler(object):
 
         while True:
             if (get_record_stop()):
-                
                 logging.info('STOP THE RECORDING because stop.audio is True')
                 return 1, 'stop'
             if (get_chat_thread_stop_flag()):
