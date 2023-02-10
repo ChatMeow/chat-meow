@@ -8,7 +8,7 @@ FilePath: /chat-meow/meow/utils/thread.py
 from threading import Thread
 from meow.utils.context import set_chat_thread
 from meow.utils.context import get_chat_thread
-from meow.utils.context import set_chat_thread_stop_flag
+from meow.utils.context import set_chat_thread_stop_flag, audio_lock
 
 import logging
 
@@ -24,5 +24,6 @@ def rsgister_chat_thread(func):
 
 def stop_chat_thread():
     set_chat_thread_stop_flag(True)
+
     
 

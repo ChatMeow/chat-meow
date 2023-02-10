@@ -38,7 +38,12 @@ def chat_loop():
             
         logging.info('猫猫正在聆听...')
         code = 1
+        print('1111...')
+
         audio_lock.acquire()
+        
+        print('2222...')
+
         code, audio_detect_file = record_handler.detect_audio()
         audio_lock.release()
         while code == 1:

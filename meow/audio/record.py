@@ -9,11 +9,12 @@ import audioop
 import pyaudio
 import logging
 from meow.utils.context import get_record_stop
-from meow.utils.context import get_chat_thread_stop_flag
+from meow.utils.context import get_chat_thread_stop_flag, audio_lock
 from meow.utils.context import ThreadStopException
 import wave
 import time
 # global audio_frames
+
 
 
 class RecordHandler(object):
@@ -51,10 +52,12 @@ class RecordHandler(object):
 
         while True:
             if (get_record_stop()):
+                
                 logging.info('STOP THE RECORDING because stop.audio is True')
                 return 1, 'stop'
             if (get_chat_thread_stop_flag()):
                 logging.info('STOP THE THREAD because ThreadStopException')
+                audio_lock.release()
                 raise (ThreadStopException)
 
             detect_count += 1
