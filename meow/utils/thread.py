@@ -24,8 +24,7 @@ def rsgister_chat_thread(func):
 
 def stop_chat_thread():
     set_chat_thread_stop_flag(True)
-    audio_lock.release()
-    baidu_lock.release()
-    openai_lock.release()
+    if audio_lock.locked():
+        audio_lock.release()
     
 
