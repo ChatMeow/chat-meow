@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 17:22:00
+LastEditTime: 2023-02-08 17:54:44
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -33,7 +33,7 @@ class RecordHandler(object):
         self.audio_frames = []
         self.play_stream = None
         self.record_stream = None
-
+    
     def detect_audio(self):
         if(not self.play_stream is None):
             self.play_stream.close()
