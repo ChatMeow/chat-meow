@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-02-02 17:15:35
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-10 21:14:34
+LastEditTime: 2023-02-10 21:25:05
 FilePath: /chat-meow/chat.py
 '''
 from meow.utils.context import get_record_handler, get_openai_handler, get_baidu_handler
@@ -51,6 +51,8 @@ def chat_loop():
         code, result_text = baidu_handler.recog(audio_detect_file)
         baidu_lock.release()
         
+        
+        
         msg_lock.acquire()
         set_msg('你说:{}'.format(result_text))
         msg_lock.release()
@@ -82,6 +84,9 @@ def chat_loop():
             continue
         else:
             openai_failed_times = 0
+        
+        # ? ? ? ? 喇叭预热
+        record_handler.before_play_from_str()
         
         # ? 合成
         baidu_lock.acquire()

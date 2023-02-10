@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-10 21:15:48
+LastEditTime: 2023-02-10 21:23:48
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -97,7 +97,6 @@ class RecordHandler(object):
         self.record_stream.close()
         txt = b''.join(self.audio_frames)
         self.audio_frames = []
-        self.before_play_from_str()
         return 0, txt
 
     
