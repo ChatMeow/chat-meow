@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-01-25 14:25:18
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-10 21:00:58
+LastEditTime: 2023-02-10 21:15:48
 FilePath: /chat-meow/meow/audio/record.py
 '''
 import audioop
@@ -38,6 +38,9 @@ class RecordHandler(object):
     def detect_audio(self):
         if(not self.play_stream is None):
             self.play_stream.close()
+
+        if(not self.play_stream is None):
+            self.play_stream.close()
         self.record_stream = self.pyaudio_instance.open(format=self.stream_format,
                                                    channels=self.channels,
                                                    rate=self.rate,
@@ -52,9 +55,13 @@ class RecordHandler(object):
 
         while True:
             if (get_record_stop()):
+                self.record_stream.stop_stream()
+                self.record_stream.close()
                 logging.info('STOP THE RECORDING because stop.audio is True')
                 return 1, 'stop'
             if (get_chat_thread_stop_flag()):
+                self.record_stream.stop_stream()
+                self.record_stream.close()
                 logging.info('STOP THE THREAD because ThreadStopException')
                 audio_lock.release()
                 raise (ThreadStopException)
@@ -93,12 +100,18 @@ class RecordHandler(object):
         self.before_play_from_str()
         return 0, txt
 
+    
+
     def terminate(self):
         self.pyaudio_instance.terminate()
 
     def before_play_from_str(self) -> None:
         self.play_stream = self.pyaudio_instance.open(format=8, channels=1,
                                                       rate=16000, output=True)
+        
+    def delet_play_from_str(self) -> None:
+        self.play_stream.close()
+
 
     def play_from_str(self, audio_txt: str) -> None:
         self.play_stream.write(audio_txt)

@@ -2,7 +2,7 @@
 Author: MeowKJ
 Date: 2023-02-02 17:15:35
 LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-08 16:48:21
+LastEditTime: 2023-02-10 21:14:34
 FilePath: /chat-meow/chat.py
 '''
 from meow.utils.context import get_record_handler, get_openai_handler, get_baidu_handler
@@ -32,18 +32,12 @@ def chat_loop():
     openai_failed_times = 0
     while True:
         logging.debug('***START_LOOP***')
-        
         if(baidu_recognition_failed_times > 10 or baidu_tts_failed_times > 10 or openai_failed_times > 10):
             raise('ERROR GET MAX FAILD, CHECK NETWORK OR KEY')
             
         logging.info('猫猫正在聆听...')
         code = 1
-        print('1111...')
-
         audio_lock.acquire()
-        
-        print('2222...')
-
         code, audio_detect_file = record_handler.detect_audio()
         audio_lock.release()
         while code == 1:
