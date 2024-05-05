@@ -1,11 +1,3 @@
-'''
-Author: MeowKJ
-Date: 2023-01-25 15:40:12
-LastEditors: MeowKJ ijink@qq.com
-LastEditTime: 2023-02-07 17:57:19
-FilePath: /chat-meow/meow/baidu/baidu.py
-'''
-
 # coding=utf-8
 import json
 import base64
@@ -102,9 +94,14 @@ class BaiduHandler():
                 return 1, 'retry'
 
             result_str = str(result_str, 'utf-8')
-            text = dict(json.loads(result_str))["result"][0]
+            try:
+                text = dict(json.loads(result_str))["result"][0]
+            except KeyError as e:
+                logging.error('BAIDU RECOG ERROR, CHECK BAIDU ACCOUNT -> baidu recognition error, asr http response '
+                              'error : ' + str(e))
+                return 2, 'NO RESULT'
             logging.debug('recognition result: {}'.format(text))
-            if(text == ''):
+            if text == '':
                 return 2, 'NO RESULT'
             return 0, text
 

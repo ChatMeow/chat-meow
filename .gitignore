@@ -188,10 +188,11 @@ cython_debug/
 .idea/
 
 .vscode/
-
+.venv/
 *.db
-*.sqlite
+*.sqlite\
 
+config.yml
 key.yml
 
 key.yaml
@@ -199,3 +200,8 @@ key.yaml
 test.py
 
 chat.log
+database.sqlite
+
+
+\static
+\templates
