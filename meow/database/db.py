@@ -57,4 +57,7 @@ class DBHandler:
 
         return prompt_list
 
-
+    def clear_database(self):
+        self.execute("drop table if exists prompt")
+        self.initialize_database()
+        logging.debug('Database Cleared and Re-initialized SUCCESS.')

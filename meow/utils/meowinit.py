@@ -10,6 +10,8 @@ from meow.database.db import DBHandler
 from meow.utils.conf import get_conf_data, get_key_data
 
 from meow.utils.context import context
+
+
 def generate_handler():
     context.set_handler('oneapi_handler', None)
     context.set_handler('baidu_handler', None)

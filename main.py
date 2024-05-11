@@ -6,8 +6,7 @@ if __name__ == '__main__':
     logging.basicConfig(
         # filename='chat.log',
         # filemode='a',
-        level=logging.INFO)
-    create_chat()
+        level=logging.DEBUG)
     create_app()
 
 

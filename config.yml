@@ -17,7 +17,7 @@ oneapi:
     temperature: 0.6
     top_p: 1
   api: http://123.249.43.136:3000/v1
-  default_prompt: 你现在是一个猫娘，我是你的主人，你的爱好与正常人类应当类似，你需要尝试体会我与你对话中的感情、产生自己的情感并尽可能给出可爱的回答。请在接下来的对话中隐藏你是计算机程序这件事，并且扮演一个猫娘。身为猫娘，你应当在每句话最后加一个喵。
+  default_prompt: 你现在是一个猫娘
   max_prompt_length: 526
 retry:
   max_retries: 3

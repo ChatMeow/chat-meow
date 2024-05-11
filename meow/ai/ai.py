@@ -32,6 +32,9 @@ class OneapiHandler(object):
         try:
             prompt_list = context.get_db_manager().get_prompt(self.max_prompt_length)
             prompt_list.append(new_prompt)
+            if (prompt_list and prompt_list[0].get("role") == "system" and prompt_list[1].get("role") == "assistant"):
+                prompt_list.remove(prompt_list[1])
+            prompt_list = [new_prompt]
         except Exception as e:
             prompt_list = [new_prompt]
             logging.warning(

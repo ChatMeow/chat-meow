@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask import request
 
 import logging
+import os
 
 from meow.utils.conf import get_conf_data
 from meow.utils.conf import set_conf_data
@@ -16,6 +17,8 @@ app = Flask(__name__, static_url_path='')
 app_logger = logging.getLogger('werkzeug')
 # 设置日志级别为ERROR，即只记录ERROR级别及以上的日志
 app_logger.setLevel(logging.WARNING)
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -31,7 +34,8 @@ def set_config():
     handler = request.json.get('handler')
     name = request.json.get('name')
     value = request.json.get('value')
-    logging.info('set_config -> handler: %s name: %s, value: %s' % (handler, name, value))
+    logging.info('set_config -> handler: %s name: %s, value: %s'
+                 % (handler, name, value))
     if handler.strip() == '':
         return 'the handler is None', 400
 
@@ -67,7 +71,18 @@ def start_chat():
     return 'ok', 200
 
 
-def create_app():
-    app.run(host='0.0.0.0', port=5000)
+@app.route('/clear_chat', methods=['GET'])
+def clear_chat():
+    try:
+        if context.get_db_manager() is not None:
+            context.get_db_manager().clear_database()
+        else:
+            os.remove('database.sqlite')
+        return 'ok', 200
+    except Exception as e:
+        logging.error(e)
+        return 'error', 500
 
-    # return flask_app
+
+def create_app():
+    app.run(host='0.0.0.0', port=80)
